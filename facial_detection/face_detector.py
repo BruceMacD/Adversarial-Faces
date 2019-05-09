@@ -5,8 +5,8 @@ Runner class to see results for input example
 
 import sys
 import getopt
-import cv2
 import dlib
+import cv2
 
 EXPECTED_NUM_IN = 1
 
@@ -56,7 +56,7 @@ def main(argv):
         exit_error()
 
     # only want one input
-    if len(args) != EXPECTED_NUM_IN:
+    if len(opts) != EXPECTED_NUM_IN:
         exit_error()
 
     for opt, arg in opts:
