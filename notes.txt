@@ -1,0 +1,22 @@
+Steps:
+1. Facial detection with opencv/dlib
+2. generate adversarial example of multiple faces vs dlib
+3. test generated against other systems (reckognition)
+4. test printed example
+
+===================================
+Process:
+Started looking into generating adversarial examples and different facial recognition models: https://www.learnopencv.com/face-detection-opencv-dlib-and-deep-learning-c-python/
+Manipulated/simplified hog in gimp and tested it on mask. It worked and looked incognito. Tried shrinking it to see long it will be recognized. Decent results.
+Next steps, generate and manipulate more examples to get some data.
+Two possible approaches, reinforcement learning or manual modification with observations.
+
+Reinforcement learning:
+Generative Adversarial Networks (GANs): Seem better suited for generating new samples from input. Where I know the input I need to get my desired output this didnt seem like the best approach.
+Q-Learning: https://towardsdatascience.com/reinforcement-learning-with-python-8ef0242a2fa2
+
+
+Decided on Dlib frontal face detector which uses HoG, partially because its good and fast, also model is easy and looks cool.
+https://topicfly.io/face-detection-with-dlib/
+
+https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6077989
