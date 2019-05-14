@@ -29,7 +29,10 @@ def detect_faces(img):
     # to detect the faces, can increase this number if there are troubles detecting faces
     # returns a bounding box around each face
     detected_faces = frontal_face_detector(img, 1)
+    return detected_faces
 
+
+def show_detected_faces(detected_faces, img):
     for face in detected_faces:
         # draw box for face
         x, y, w, h = dlib_to_cv_bounding_box(face)
@@ -68,7 +71,7 @@ def main(argv):
     if input_img is None:
         exit_error()
 
-    detect_faces(input_img)
+    show_detected_faces(detect_faces(input_img), input_img)
 
 
 if __name__ == "__main__":
