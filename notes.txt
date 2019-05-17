@@ -14,6 +14,13 @@ Two possible approaches, reinforcement learning or manual modification with obse
 Reinforcement learning:
 Generative Adversarial Networks (GANs): Seem better suited for generating new samples from input. Where I know the input I need to get my desired output this didnt seem like the best approach.
 Q-Learning: https://towardsdatascience.com/reinforcement-learning-with-python-8ef0242a2fa2
+https://adventuresinmachinelearning.com/reinforcement-learning-tensorflow/
+
+Deep Q-learning seems more suited for deciding the best output given an input state, where our input state is static there are probably better solutions.
+
+I'm looking at an optimization problem:
+https://towardsdatascience.com/getting-started-with-randomized-optimization-in-python-f7df46babff0
+https://docs.scipy.org/doc/scipy/reference/tutorial/optimize.html
 
 
 Decided on Dlib frontal face detector which uses HoG, partially because its good and fast, also model is easy and looks cool.

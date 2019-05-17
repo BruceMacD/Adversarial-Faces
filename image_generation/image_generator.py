@@ -1,28 +1,26 @@
 import cv2
 from PIL import Image
+from image_generation.HogFace import HOGFace
 from facial_detection.face_detector import detect_faces
 
 OUTPUT_DIR = "../output/"
 OUTPUT_FILE_NAME = "image.png"
 OUTPUT = OUTPUT_DIR + OUTPUT_FILE_NAME
-HOG_FILE = "../data/hog_no_bg.png"
 
-hog_img = Image.open(HOG_FILE)
-width, height = hog_img.size
+# arbitrarily selected as (4*hog_width, 4*hog_height)
+width, height = (1532, 1528)
 
 
-def get_base_img():
-    img = Image.new('RGB', (width * 4, height * 4), (0, 0, 0))
-    return img
+def get_background_img():
+    background = Image.new('RGB', (width, height), (0, 0, 0))
+    return background
 
 
 def main():
-    img = get_base_img()
+    img = get_background_img()
 
-    # fill image
-    for i in range (0, 4):
-        for j in range (0, 4):
-            img.paste(hog_img, (width*i, height*j))
+    hog_img = HOGFace(0, (0, 0), (0, 0, 0))
+    img.paste(hog_img.img, hog_img.position)
 
     img.save(OUTPUT, "PNG")
 
