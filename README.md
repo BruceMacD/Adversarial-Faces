@@ -6,6 +6,8 @@ Testing the effectiveness of practical implementations of adversarial examples a
     OpenCV v3.0+
     PIL (Pillow)
     dlib
+    mlrose
+    numpy
     Python 3
 
 
