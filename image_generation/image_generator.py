@@ -9,37 +9,18 @@ OUTPUT_DIR = "../output/"
 OUTPUT_FILE_NAME = "image.png"
 OUTPUT = OUTPUT_DIR + OUTPUT_FILE_NAME
 
-# arbitrarily selected as (4*hog_width, 4*hog_height)
-width, height = (1532, 1528)
-# each column represents a HogFace
+# arbitrarily selected as (2*hog_width, 2*hog_height), smaller than the amount of face input in standard dimensions
+width, height = (766, 766)
+scale_factor = 766
+# constrained by mlrose to 1D array, so need to workaround with index pos significance
 # arbitrarily trying with 6 faces because mlrose expects known problem length
-initial_state = np.array([[0, 0, 0, 0, 0, 0],
-                          [0, 0, 0, 0, 0, 0],
-                          [0, 0, 0, 0, 0, 0],
-                          [256, 0, 0, 0, 0, 0],
-                          [256, 0, 0, 0, 0, 0],
-                          [1, 0, 0, 0, 0, 0]])
-
-
-# TODO: remove
-def testing_img():
-    img = get_background_img()
-
-    for col in np.nditer(initial_state, flags=['external_loop'], order='F'):
-        pos_x = col[0]
-        pos_y = col[1]
-        rot = col[2]
-        size_x = col[3]
-        size_y = col[4]
-        display = col[5]
-
-        hog_img = HOGFace((pos_x, pos_y), rot, (size_x, size_y), display)
-
-        if hog_img.display and size_x > 0 and size_y > 0:
-            img.paste(hog_img.get_image(), hog_img.position)
-
-    img.save(OUTPUT, "PNG")
-    print(len(detect_faces(cv2.imread(OUTPUT))))
+# indexes:
+# 0 % 4 = pos_x
+# 1 % 4 = pos_y
+# 2 % 4 = rotation
+# 3 % 4 = scale
+initial_state = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+# we know that one good state is to have 4 HOGs taking the whole image, lets start there
 
 
 def get_background_img():
@@ -47,34 +28,55 @@ def get_background_img():
     return background
 
 
-def detected_max(state):
+def get_img_from_state(state):
     img = get_background_img()
-    # TODO: reformat for state
-    for col in np.nditer(state, flags=['external_loop'], order='F'):
-        pos_x = col[0]
-        pos_y = col[1]
-        rot = col[2]
-        size_x = col[3]
-        size_y = col[4]
-        display = col[5]
 
-        hog_img = HOGFace((pos_x, pos_y), rot, (size_x, size_y), display)
-
-        if hog_img.display and size_x > 0 and size_y > 0:
-            img.paste(hog_img.get_image(), hog_img.position)
+    # use state as coordinates of faces in image and params
+    i = 0
+    while i < len(state):
+        pos_x = state[i]
+        pos_y = state[i + 1]
+        rotation = state[i + 2]
+        scale = state[i + 3]
+        hog_img = HOGFace((pos_x, pos_y), rotation, scale, scale_factor)
+        result = hog_img.get_image()
+        if result is not None:
+            img.paste(result, hog_img.position)
+        i = i + 4
 
     img.save(OUTPUT, "PNG")
+
+
+def get_total_scale(state):
+    total_scale = 0
+    i = 0
+    while i < len(state):
+        total_scale = total_scale + state[i + 3]
+        i = i + 4
+    return total_scale
+
+
+def detected_max(state):
+    get_img_from_state(state)
+    # we bias the result for larger scale faces as they are detected more easily
     return len(detect_faces(cv2.imread(OUTPUT)))
 
 
 def main():
-    # TODO: remove
-    testing_img()
-
     # want to maximize this
     fitness = mlrose.CustomFitness(detected_max)
+    problem = mlrose.DiscreteOpt(length=24, fitness_fn=fitness,
+                                 maximize=True, max_val=scale_factor)
+    schedule = mlrose.ExpDecay()
+    best_state, max_faces = mlrose.simulated_annealing(problem, schedule=schedule, max_attempts=10, max_iters=1000,
+                                                       init_state=initial_state, random_state=1)
+
+    print('Optimal state found: ', best_state)
+    print('Max fitness found: ', max_faces)
+    # save the optimal found
+    get_img_from_state(best_state)
+    print("Number of faces in output: ", len(detect_faces(cv2.imread(OUTPUT))))
 
 
 if __name__ == "__main__":
-    # TODO: take output name in input args
     main()

@@ -8,21 +8,20 @@ class HOGFace:
     img = Image.open(HOG_FILE)
     width, height = img.size
 
-    def __init__(self, position, rotation, size, display):
+    def __init__(self, position, rotation, scale, scale_factor):
         self.position = position
-        self.rotation = rotation
-        self.size = size
-        # controls if image should be displayed, int because of mlrose assumptions
-        self.display = display
+        self.rotation = rotation%360
+        # scale will come in range
+        self.scale = scale
 
     # apply all features to image and return
     def get_image(self):
-        # TODO: rotation
+        size = (self.width*self.scale, self.height*self.scale)
+        if 0 in size:
+            # do not display this image
+            return None
         im = self.img
-        im.thumbnail(self.size, Image.ANTIALIAS)
+        # change the size of the image
+        im.thumbnail(size, Image.ANTIALIAS)
+        im = im.rotate(self.rotation)
         return im
-
-    def display_image(self):
-        if self.display == 0:
-            return False
-        return True
