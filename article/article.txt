@@ -1,0 +1,13 @@
+---
+
+Fooling Facial Detection with Fashion
+Photo by Pavel Anoshin on UnsplashUsage of facial recognition is on the rise. With the recent debates over the ethics of facial recognition potential adversarial attacks against facial detection have been on my mind. Facial recognition is being used everywhere from airports to social media. It seems to be near impossible to opt-out of having your face scanned. 
+An ideal attack on facial detection would be an article of clothing that looks inconspicuous to the uninformed. With inspiration from the Hyperface project I decided to research and implement a wearable adversarial example. In this article I'll detail the process of creating an adversarial image to fool a selected type of facial detection and how I implemented a practical example on a face mask.
+
+
+---
+
+Facial Detection vs. Facial Recognition
+Facial detection vs. facial recognitionThe first important thing to note before delving deeper into this project is the difference between facial detection and facial recognition. Facial detection refers to the ability to detect when a face is present in an image. Facial recognition relies on facial detection to establish a face is present in an image but it goes one step further and attempts to establish whose face it is.
+For this project I have chosen to focus on facial detection. Mainly for the reason that it is much easier to test. To properly test facial recognition access to a facial recognition database would be ideal.
+Facial Detection Models

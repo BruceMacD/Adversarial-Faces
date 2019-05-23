@@ -47,18 +47,10 @@ def get_img_from_state(state):
     img.save(OUTPUT, "PNG")
 
 
-def get_total_scale(state):
-    total_scale = 0
-    i = 0
-    while i < len(state):
-        total_scale = total_scale + state[i + 3]
-        i = i + 4
-    return total_scale
-
-
 def detected_max(state):
     get_img_from_state(state)
-    # we bias the result for larger scale faces as they are detected more easily
+    # currently fitness is only based on number of faces detected.
+    # Biasing fitness for larger input faces could be ideal to ensure detection from a distance.
     return len(detect_faces(cv2.imread(OUTPUT)))
 
 
