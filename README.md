@@ -1,4 +1,7 @@
 # Adversarial-Faces
+
+![mock mask](https://raw.githubusercontent.com/BruceMacD/Adversarial-Faces/master/data/mock_mask.png)
+
 Testing the effectiveness of practical implementations of adversarial examples against facial recognition.
 
 ## Dependencies
