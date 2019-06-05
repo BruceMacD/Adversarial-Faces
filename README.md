@@ -4,6 +4,8 @@
 
 Testing the effectiveness of practical implementations of adversarial examples against facial recognition.
 
+Check out the accompanying blog: https://medium.com/@brucewmacdonald/fooling-facial-detection-with-fashion-d668ed919eb
+
 ## Dependencies
 
     OpenCV v3.0+
