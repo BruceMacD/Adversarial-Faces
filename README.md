@@ -16,5 +16,4 @@ Check out the accompanying blog: https://medium.com/@brucewmacdonald/fooling-fac
     Python 3
 
 
-## Reference
-https://www.pexels.com/photo/group-of-people-toasting-marshmallows-on-stick-1531683/
+### Featured in the MIT Technology Review newsletter May 1, 2020
