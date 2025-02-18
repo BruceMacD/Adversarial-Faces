@@ -16,5 +16,4 @@ Check out the accompanying blog: https://medium.com/@brucewmacdonald/fooling-fac
     Python 3
 
 
-### * Featured in the MIT Technology Review newsletter, May 1 2020
 ### * Featured in the Museum of Technology (Vienna) in an exhibition on robotics and artificial intelligence, November 2020
